@@ -1,0 +1,6 @@
+@Suitability.Gateway_HostAddress = http://localhost:5246
+
+GET {{Suitability.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
