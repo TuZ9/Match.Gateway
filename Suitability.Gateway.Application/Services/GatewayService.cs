@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Suitability.Gateway.Domain.Dto;
 using Suitability.Gateway.Domain.Interfaces.ApiClientService;
 using Suitability.Gateway.Domain.Interfaces.Services;
 
@@ -9,16 +10,42 @@ namespace Suitability.Gateway.Application.Services
         private readonly ILogger<GatewayService> _logger;
         private readonly IAccountApiClient _accountClient;
         private readonly IDocumentStatusApiClient _documentStatusClient;
-        public GatewayService(ILogger<GatewayService> logger, IAccountApiClient accountClient, IDocumentStatusApiClient documentStatusClient) 
+
+        private readonly IProductApiClient _steamAppClient;
+        private readonly IProductComplementApiClient _steamGamesClient;
+
+
+        public GatewayService(ILogger<GatewayService> logger, IAccountApiClient accountClient, IDocumentStatusApiClient documentStatusClient, IProductApiClient steamAppClient, IProductComplementApiClient steamGamesClient) 
         {
             _logger = logger;
             _accountClient = accountClient;
             _documentStatusClient = documentStatusClient;
+            _steamAppClient = steamAppClient;
+            _steamGamesClient = steamGamesClient;
         }
 
-        public async Task ConsumeGames()
+        public async Task ConsumeProducts()
         {
-
+            try
+            {
+                var list = new List<ProductComplementDto>();
+                var games = await _steamAppClient.GetAsync($"/ISteamApps/GetAppList/v2/");
+                foreach (var g in games.applist.apps)
+                {
+                    var game = await _steamGamesClient.GetDicAsync($"/api/appdetails?appids={g.appid}");
+                    Console.WriteLine($"{g.appid}");
+                    var a = game.FirstOrDefault();
+                    if (a.Value.success == true)
+                    {
+                        list.Add(a.Value);
+                    }
+                }
+                Console.WriteLine($"count de jogos {list.Count}");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
     }

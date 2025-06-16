@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 SwaggerConfiguration.AddSwagger(builder.Services);
 SerilogExtension.AddSerilog(builder.Configuration);
 RunTimeConfig.SetConfigs(builder.Configuration);
+builder.Services.AddServices();
 builder.Services.AddHttpClients();
 builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
