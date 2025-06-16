@@ -19,13 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Suitability.Gateway.Application\Suitability.Gateway.Application.csproj" />
     <ProjectReference Include="..\Suitability.Gateway.Domain\Suitability.Gateway.Domain.csproj" />
     <ProjectReference Include="..\Suitability.Gateway.Infrastructure\Suitability.Gateway.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Suitability.Gateway.Domain.Interfaces.ApiClientService;
+using Suitability.Gateway.Infrastructure.HttpClientBase;
+using Suitability.Gateway.Infrastructure.Static;
 
 namespace Suitability.Gateway.Infrastructure.Extensions
 {
@@ -9,26 +12,17 @@ namespace Suitability.Gateway.Infrastructure.Extensions
         {
             var serviceProvider = services.BuildServiceProvider();
 
-            var flowerLogger = serviceProvider.GetService(typeof(ILogger<FlowerApiClient>)) as ILogger<FlowerApiClient>;
-            var strainLogger = serviceProvider.GetService(typeof(ILogger<StrainApiClient>)) as ILogger<StrainApiClient>;
-            var extractLogger = serviceProvider.GetService(typeof(ILogger<ExtractApiClient>)) as ILogger<ExtractApiClient>;
+            var accountLogger = serviceProvider.GetService(typeof(ILogger<AccountApiClient>)) as ILogger<AccountApiClient>;
+            var strainLogger = serviceProvider.GetService(typeof(ILogger<DocumentStatusApiClient>)) as ILogger<DocumentStatusApiClient>;
 
-            services.AddHttpClient("Flower",
-                client => { client.BaseAddress = new Uri(RunTimeConfig.CannabisEndpoint); });
-            services.AddHttpClient("Strain",
-                client => { client.BaseAddress = new Uri(RunTimeConfig.CannabisEndpoint); });
-            services.AddHttpClient("Extract",
-                client => { client.BaseAddress = new Uri(RunTimeConfig.CannabisEndpoint); });
+            services.AddHttpClient("Account",
+                client => { client.BaseAddress = new Uri(RunTimeConfig.SuitabilityEndpoint); });
+            services.AddHttpClient("DocumentStatus",
+                client => { client.BaseAddress = new Uri(RunTimeConfig.SuitabilityEndpoint); });
 
-            services.AddSingleton<IFlowerApiClient, FlowerApiClient>(x =>
-                new FlowerApiClient(x.GetService<IHttpClientFactory>()!, flowerLogger, "Flower"));
-            services.AddSingleton<IStrainApiClient, StrainApiClient>(x =>
-                new StrainApiClient(x.GetService<IHttpClientFactory>()!, strainLogger, "Strain"));
-
-            services.AddSingleton<IExtractApiClient, ExtractApiClient>(x =>
-                new ExtractApiClient(x.GetService<IHttpClientFactory>()!, extractLogger, "Extract"));
-
-
+            services.AddSingleton<IAccountApiClient, AccountApiClient>(x => new AccountApiClient(x.GetService<IHttpClientFactory>()!, accountLogger, "Account"));
+            services.AddSingleton<IDocumentStatusApiClient, DocumentStatusApiClient>(x => new DocumentStatusApiClient(x.GetService<IHttpClientFactory>()!, strainLogger, "DocumentStatus"));
+            
             return services;
         }
     }

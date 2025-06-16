@@ -1,25 +1,42 @@
+using Suitability.Gateway.Infrastructure.Extensions;
+using Suitability.Gateway.Infrastructure.Static;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+builder.Services.AddHttpClients();
+builder.Services.AddMemoryCache();
+RunTimeConfig.SetConfigs(builder.Configuration);
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHealthChecks();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options => options.AddPolicy("All", opt => opt
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed(hostname => true)));
+builder.WebHost.UseKestrel(so =>
+{
+    so.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(10000);
+    so.Limits.MaxRequestBodySize = 52428800;
+    so.Limits.MaxConcurrentConnections = 100;
+    so.Limits.MaxConcurrentConnections = 100;
+});
+
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseRouting();
+app.UseAuthentication();
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
+app.UseCors("All");
 app.MapControllers();
-
 app.Run();

@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "http": {
+    "Suitability.Gateway": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

@@ -1,4 +1,4 @@
-﻿namespace Suitability.Gateway.Application.Static
+﻿namespace Suitability.Gateway.Infrastructure.Static
 {
     public class AWSConfiguration
     {

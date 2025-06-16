@@ -15,9 +15,5 @@
     <ProjectReference Include="..\Suitability.Gateway.Domain\Suitability.Gateway.Domain.csproj" />
     <ProjectReference Include="..\Suitability.Gateway.Infrastructure\Suitability.Gateway.Infrastructure.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
 
 </Project>
