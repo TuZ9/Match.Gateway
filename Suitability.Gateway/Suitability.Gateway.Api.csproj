@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Suitability.Gateway.Infrastructure\Suitability.Gateway.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

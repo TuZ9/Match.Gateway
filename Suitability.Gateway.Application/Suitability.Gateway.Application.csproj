@@ -13,7 +13,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Suitability.Gateway.Domain\Suitability.Gateway.Domain.csproj" />
-    <ProjectReference Include="..\Suitability.Gateway.Infrastructure\Suitability.Gateway.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
