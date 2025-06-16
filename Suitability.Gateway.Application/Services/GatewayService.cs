@@ -33,14 +33,13 @@ namespace Suitability.Gateway.Application.Services
                 foreach (var g in games.applist.apps)
                 {
                     var game = await _steamGamesClient.GetDicAsync($"/api/appdetails?appids={g.appid}");
-                    Console.WriteLine($"{g.appid}");
+                    _logger.LogInformation($"{g.appid}");
                     var a = game.FirstOrDefault();
                     if (a.Value.success == true)
                     {
                         list.Add(a.Value);
                     }
                 }
-                Console.WriteLine($"count de jogos {list.Count}");
             }
             catch (Exception ex)
             {
