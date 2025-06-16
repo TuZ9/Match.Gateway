@@ -4,14 +4,14 @@ using Suitability.Gateway.Infrastructure.Static;
 
 var builder = WebApplication.CreateBuilder(args);
 SwaggerConfiguration.AddSwagger(builder.Services);
+SerilogExtension.AddSerilog(builder.Configuration);
+RunTimeConfig.SetConfigs(builder.Configuration);
 builder.Services.AddHttpClients();
 builder.Services.AddMemoryCache();
-RunTimeConfig.SetConfigs(builder.Configuration);
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHealthChecks();
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddPolicy("All", opt => opt
                         .AllowAnyHeader()
@@ -25,8 +25,6 @@ builder.WebHost.UseKestrel(so =>
     so.Limits.MaxConcurrentConnections = 100;
     so.Limits.MaxConcurrentConnections = 100;
 });
-
-builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
