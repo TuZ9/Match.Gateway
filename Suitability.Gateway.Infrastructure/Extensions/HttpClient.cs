@@ -19,7 +19,8 @@ namespace Suitability.Gateway.Infrastructure.Extensions
                 client => { client.BaseAddress = new Uri(RunTimeConfig.SuitabilityEndpoint); });
             services.AddHttpClient("DocumentStatus",
                 client => { client.BaseAddress = new Uri(RunTimeConfig.SuitabilityEndpoint); });
-
+            services.AddHttpClient<IAccountApiClient, AccountApiClient>(_ => _.BaseAddress = new Uri(RunTimeConfig.SuitabilityEndpoint));
+            services.AddHttpClient<IDocumentStatusApiClient, DocumentStatusApiClient>(_ => _.BaseAddress = new Uri(RunTimeConfig.SuitabilityEndpoint));
             services.AddSingleton<IAccountApiClient, AccountApiClient>(x => new AccountApiClient(x.GetService<IHttpClientFactory>()!, accountLogger, "Account"));
             services.AddSingleton<IDocumentStatusApiClient, DocumentStatusApiClient>(x => new DocumentStatusApiClient(x.GetService<IHttpClientFactory>()!, strainLogger, "DocumentStatus"));
             

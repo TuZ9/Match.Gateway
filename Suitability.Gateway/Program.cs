@@ -1,8 +1,9 @@
 using Suitability.Gateway.Infrastructure.Extensions;
+using Suitability.Gateway.Infrastructure.Ioc.Utils;
 using Suitability.Gateway.Infrastructure.Static;
 
 var builder = WebApplication.CreateBuilder(args);
-
+SwaggerConfiguration.AddSwagger(builder.Services);
 builder.Services.AddHttpClients();
 builder.Services.AddMemoryCache();
 RunTimeConfig.SetConfigs(builder.Configuration);
